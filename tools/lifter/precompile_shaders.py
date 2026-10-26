@@ -34,6 +34,8 @@ def build_mx_all():
     if os.path.exists(exe) and os.path.getmtime(exe) >= max(os.path.getmtime(s) for s in srcs):
         return exe
     extra = [T.runtime('compat', 'win32_posix.c'), '-lpthread', '-ldl', '-lm'] + getattr(T, 'LINUX_CFLAGS', []) if posix else []
+    if getattr(T, 'MAC', False):                  # the shim's message box, beep and key state need these on macOS
+        extra += [a for f in ('CoreFoundation', 'CoreGraphics', 'AudioToolbox') for a in ('-framework', f)]
     clang = T.clang() if hasattr(T, 'clang') else os.path.join(os.environ.get('LLVM_ROOT', 'C:/llvm-9.0.0'), 'bin', 'clang.exe')
     r = subprocess.run([clang, '-O1', '-w'] + T.runtime_includes() + srcs + extra + ['-o', exe], capture_output=True, text=True)
     if r.returncode:
