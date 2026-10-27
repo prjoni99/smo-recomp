@@ -259,7 +259,7 @@ void smo_fast_install(void) {
 }
 
 void smo_fast_report(FILE *out) {
-    if (g_reg_skipped) fprintf(out, "smo_fast: registerSampler's free-slot walk: %lld taken slots jumped over\n", g_reg_skipped);
+    if (g_reg_skipped) fprintf(out, "smo_fast: registerSampler's free-slot walk: %lld taken slots jumped over\n", (long long)g_reg_skipped);
     if (g_reg_taken || g_reg_free) fprintf(out, "smo_fast: registerSampler_ calls: %lld on a taken slot answered in host code, %lld on a free slot passed to the game's code\n",
                                             (long long)g_reg_taken, (long long)g_reg_free);
     if (!g_sorts && !g_other) return;
