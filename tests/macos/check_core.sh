@@ -9,7 +9,7 @@ mkdir -p "$OUT"
 CC=${CC:-clang}
 CFLAGS=(-std=gnu11 -O1 -g -Wall -Wno-unused-function)
 if [ "$(uname -s)" = Darwin ]; then
-    LIBS=("${LIBS[@]}")
+    LIBS=(-framework CoreFoundation -framework CoreGraphics -framework AudioToolbox)      # the shim's message box, beep and key state
     G=81; RO_END=0x8100008000          # hostrt.h's layout 0x10_0000_0000 higher; text protected to the 16 KB page
 else
     CFLAGS+=(-D_GNU_SOURCE -fno-omit-frame-pointer)
